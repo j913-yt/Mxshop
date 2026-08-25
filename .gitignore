@@ -1,0 +1,10 @@
+.idea/
+
+# Go build artifacts
+bin/
+*.exe
+*.test
+*.out
+
+# OS metadata
+.DS_Store
