@@ -321,10 +321,10 @@ func (x *CreateUserInfo) GetMobile() string {
 type UserInfoResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	PassWord      string                 `protobuf:"bytes,2,opt,name=passWord,proto3" json:"passWord,omitempty"`
 	Mobile        string                 `protobuf:"bytes,3,opt,name=mobile,proto3" json:"mobile,omitempty"`
 	NickName      string                 `protobuf:"bytes,4,opt,name=nickName,proto3" json:"nickName,omitempty"`
-	BirtDay       uint64                 `protobuf:"varint,5,opt,name=birtDay,proto3" json:"birtDay,omitempty"`
+	BrithDay      uint64                 `protobuf:"varint,5,opt,name=brithDay,proto3" json:"brithDay,omitempty"`
 	Gender        string                 `protobuf:"bytes,6,opt,name=gender,proto3" json:"gender,omitempty"`
 	Role          int32                  `protobuf:"varint,7,opt,name=role,proto3" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -368,9 +368,9 @@ func (x *UserInfoResponse) GetId() int32 {
 	return 0
 }
 
-func (x *UserInfoResponse) GetPassword() string {
+func (x *UserInfoResponse) GetPassWord() string {
 	if x != nil {
-		return x.Password
+		return x.PassWord
 	}
 	return ""
 }
@@ -389,9 +389,9 @@ func (x *UserInfoResponse) GetNickName() string {
 	return ""
 }
 
-func (x *UserInfoResponse) GetBirtDay() uint64 {
+func (x *UserInfoResponse) GetBrithDay() uint64 {
 	if x != nil {
-		return x.BirtDay
+		return x.BrithDay
 	}
 	return 0
 }
@@ -551,13 +551,13 @@ const file_user_proto_rawDesc = "" +
 	"\x0eCreateUserInfo\x12\x1a\n" +
 	"\bnickName\x18\x01 \x01(\tR\bnickName\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x16\n" +
-	"\x06mobile\x18\x03 \x01(\tR\x06mobile\"\xb8\x01\n" +
+	"\x06mobile\x18\x03 \x01(\tR\x06mobile\"\xba\x01\n" +
 	"\x10UserInfoResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x16\n" +
+	"\bpassWord\x18\x02 \x01(\tR\bpassWord\x12\x16\n" +
 	"\x06mobile\x18\x03 \x01(\tR\x06mobile\x12\x1a\n" +
-	"\bnickName\x18\x04 \x01(\tR\bnickName\x12\x18\n" +
-	"\abirtDay\x18\x05 \x01(\x04R\abirtDay\x12\x16\n" +
+	"\bnickName\x18\x04 \x01(\tR\bnickName\x12\x1a\n" +
+	"\bbrithDay\x18\x05 \x01(\x04R\bbrithDay\x12\x16\n" +
 	"\x06gender\x18\x06 \x01(\tR\x06gender\x12\x12\n" +
 	"\x04role\x18\a \x01(\x05R\x04role\"n\n" +
 	"\x0eUpdateUserInfo\x12\x0e\n" +
