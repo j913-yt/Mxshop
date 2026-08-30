@@ -9,8 +9,8 @@ import (
 // 定义公共模型
 type BaseModel struct {
 	ID        int32     `gorm:"primary_key"`
-	CreateAt  time.Time `gorm:"column:create_at"`
-	UpdateAt  time.Time `gorm:"column:update_at"`
+	CreatedAt time.Time `gorm:"column:create_at"`
+	UpdatedAt time.Time `gorm:"column:update_at"`
 	DeleteAt  gorm.DeletedAt
 	IsDeleted bool
 }
