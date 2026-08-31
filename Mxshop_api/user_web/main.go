@@ -8,14 +8,16 @@ import (
 )
 
 func main() {
-	//初始化 routers
-	Router := initialize.Routers()
-	logger, _ := zap.NewProduction()
-	defer logger.Sync()
 	port := 8021
+	//1.初始化logger
+	initialize.InitLogger()
+	//2.初始化 routers
+	Router := initialize.Routers()
+
+	zap.S().Debugf("启动服务器，端口：%d", port)
 	err := Router.Run(fmt.Sprintf(":%d", port))
 	if err != nil {
-
+		zap.S().Panic("启动失败", err.Error())
 	}
 
 }
