@@ -37,7 +37,7 @@ type UserClient interface {
 	GetUserById(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*UserInfoResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserInfo, opts ...grpc.CallOption) (*UserInfoResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserInfo, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	CheckPassWord(ctx context.Context, in *PasswordCheckInfo, opts ...grpc.CallOption) (*CheckReponse, error)
+	CheckPassWord(ctx context.Context, in *PasswordCheckInfo, opts ...grpc.CallOption) (*CheckResponse, error)
 }
 
 type userClient struct {
@@ -98,9 +98,9 @@ func (c *userClient) UpdateUser(ctx context.Context, in *UpdateUserInfo, opts ..
 	return out, nil
 }
 
-func (c *userClient) CheckPassWord(ctx context.Context, in *PasswordCheckInfo, opts ...grpc.CallOption) (*CheckReponse, error) {
+func (c *userClient) CheckPassWord(ctx context.Context, in *PasswordCheckInfo, opts ...grpc.CallOption) (*CheckResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CheckReponse)
+	out := new(CheckResponse)
 	err := c.cc.Invoke(ctx, User_CheckPassWord_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -117,7 +117,7 @@ type UserServer interface {
 	GetUserById(context.Context, *IdRequest) (*UserInfoResponse, error)
 	CreateUser(context.Context, *CreateUserInfo) (*UserInfoResponse, error)
 	UpdateUser(context.Context, *UpdateUserInfo) (*emptypb.Empty, error)
-	CheckPassWord(context.Context, *PasswordCheckInfo) (*CheckReponse, error)
+	CheckPassWord(context.Context, *PasswordCheckInfo) (*CheckResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -143,7 +143,7 @@ func (UnimplementedUserServer) CreateUser(context.Context, *CreateUserInfo) (*Us
 func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserInfo) (*emptypb.Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (UnimplementedUserServer) CheckPassWord(context.Context, *PasswordCheckInfo) (*CheckReponse, error) {
+func (UnimplementedUserServer) CheckPassWord(context.Context, *PasswordCheckInfo) (*CheckResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CheckPassWord not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}

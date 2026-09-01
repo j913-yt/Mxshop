@@ -170,27 +170,27 @@ func (x *PasswordCheckInfo) GetEncryptedPassword() string {
 	return ""
 }
 
-type CheckReponse struct {
+type CheckResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CheckReponse) Reset() {
-	*x = CheckReponse{}
+func (x *CheckResponse) Reset() {
+	*x = CheckResponse{}
 	mi := &file_user_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CheckReponse) String() string {
+func (x *CheckResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CheckReponse) ProtoMessage() {}
+func (*CheckResponse) ProtoMessage() {}
 
-func (x *CheckReponse) ProtoReflect() protoreflect.Message {
+func (x *CheckResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_user_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -202,12 +202,12 @@ func (x *CheckReponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CheckReponse.ProtoReflect.Descriptor instead.
-func (*CheckReponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CheckResponse.ProtoReflect.Descriptor instead.
+func (*CheckResponse) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *CheckReponse) GetSuccess() bool {
+func (x *CheckResponse) GetSuccess() bool {
 	if x != nil {
 		return x.Success
 	}
@@ -324,7 +324,7 @@ type UserInfoResponse struct {
 	PassWord      string                 `protobuf:"bytes,2,opt,name=passWord,proto3" json:"passWord,omitempty"`
 	Mobile        string                 `protobuf:"bytes,3,opt,name=mobile,proto3" json:"mobile,omitempty"`
 	NickName      string                 `protobuf:"bytes,4,opt,name=nickName,proto3" json:"nickName,omitempty"`
-	BrithDay      uint64                 `protobuf:"varint,5,opt,name=brithDay,proto3" json:"brithDay,omitempty"`
+	BirthDay      *uint64                `protobuf:"varint,5,opt,name=birthDay,proto3,oneof" json:"birthDay,omitempty"`
 	Gender        string                 `protobuf:"bytes,6,opt,name=gender,proto3" json:"gender,omitempty"`
 	Role          int32                  `protobuf:"varint,7,opt,name=role,proto3" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -389,9 +389,9 @@ func (x *UserInfoResponse) GetNickName() string {
 	return ""
 }
 
-func (x *UserInfoResponse) GetBrithDay() uint64 {
-	if x != nil {
-		return x.BrithDay
+func (x *UserInfoResponse) GetBirthDay() uint64 {
+	if x != nil && x.BirthDay != nil {
+		return *x.BirthDay
 	}
 	return 0
 }
@@ -415,7 +415,7 @@ type UpdateUserInfo struct {
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	NickName      string                 `protobuf:"bytes,2,opt,name=nickName,proto3" json:"nickName,omitempty"`
 	Gender        string                 `protobuf:"bytes,3,opt,name=gender,proto3" json:"gender,omitempty"`
-	BirtDay       uint64                 `protobuf:"varint,4,opt,name=birtDay,proto3" json:"birtDay,omitempty"`
+	BirthDay      *uint64                `protobuf:"varint,4,opt,name=birthDay,proto3,oneof" json:"birthDay,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -471,9 +471,9 @@ func (x *UpdateUserInfo) GetGender() string {
 	return ""
 }
 
-func (x *UpdateUserInfo) GetBirtDay() uint64 {
-	if x != nil {
-		return x.BirtDay
+func (x *UpdateUserInfo) GetBirthDay() uint64 {
+	if x != nil && x.BirthDay != nil {
+		return *x.BirthDay
 	}
 	return 0
 }
@@ -541,33 +541,35 @@ const file_user_proto_rawDesc = "" +
 	"\x05pSize\x18\x02 \x01(\rR\x05pSize\"'\n" +
 	"\rMobileRequest\x12\x16\n" +
 	"\x06mobile\x18\x01 \x01(\tR\x06mobile\"]\n" +
-	"\x11passwordCheckInfo\x12\x1a\n" +
+	"\x11PasswordCheckInfo\x12\x1a\n" +
 	"\bpassword\x18\x01 \x01(\tR\bpassword\x12,\n" +
-	"\x11encryptedPassword\x18\x02 \x01(\tR\x11encryptedPassword\"(\n" +
-	"\fCheckReponse\x12\x18\n" +
+	"\x11encryptedPassword\x18\x02 \x01(\tR\x11encryptedPassword\")\n" +
+	"\rCheckResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x1b\n" +
 	"\tIdRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"`\n" +
 	"\x0eCreateUserInfo\x12\x1a\n" +
 	"\bnickName\x18\x01 \x01(\tR\bnickName\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x16\n" +
-	"\x06mobile\x18\x03 \x01(\tR\x06mobile\"\xba\x01\n" +
+	"\x06mobile\x18\x03 \x01(\tR\x06mobile\"\xcc\x01\n" +
 	"\x10UserInfoResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1a\n" +
 	"\bpassWord\x18\x02 \x01(\tR\bpassWord\x12\x16\n" +
 	"\x06mobile\x18\x03 \x01(\tR\x06mobile\x12\x1a\n" +
-	"\bnickName\x18\x04 \x01(\tR\bnickName\x12\x1a\n" +
-	"\bbrithDay\x18\x05 \x01(\x04R\bbrithDay\x12\x16\n" +
+	"\bnickName\x18\x04 \x01(\tR\bnickName\x12\x1f\n" +
+	"\bbirthDay\x18\x05 \x01(\x04H\x00R\bbirthDay\x88\x01\x01\x12\x16\n" +
 	"\x06gender\x18\x06 \x01(\tR\x06gender\x12\x12\n" +
-	"\x04role\x18\a \x01(\x05R\x04role\"n\n" +
+	"\x04role\x18\a \x01(\x05R\x04roleB\v\n" +
+	"\t_birthDay\"\x82\x01\n" +
 	"\x0eUpdateUserInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1a\n" +
 	"\bnickName\x18\x02 \x01(\tR\bnickName\x12\x16\n" +
-	"\x06gender\x18\x03 \x01(\tR\x06gender\x12\x18\n" +
-	"\abirtDay\x18\x04 \x01(\x04R\abirtDay\"O\n" +
+	"\x06gender\x18\x03 \x01(\tR\x06gender\x12\x1f\n" +
+	"\bbirthDay\x18\x04 \x01(\x04H\x00R\bbirthDay\x88\x01\x01B\v\n" +
+	"\t_birthDay\"O\n" +
 	"\x10UserListResponse\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x05R\x05total\x12%\n" +
-	"\x04data\x18\x02 \x03(\v2\x11.UserInfoResponseR\x04data2\xb4\x02\n" +
+	"\x04data\x18\x02 \x03(\v2\x11.UserInfoResponseR\x04data2\xb5\x02\n" +
 	"\x04User\x12+\n" +
 	"\vGetUserList\x12\t.PageInfo\x1a\x11.UserListResponse\x124\n" +
 	"\x0fGetUserByMobile\x12\x0e.MobileRequest\x1a\x11.UserInfoResponse\x12,\n" +
@@ -576,8 +578,8 @@ const file_user_proto_rawDesc = "" +
 	"\n" +
 	"CreateUser\x12\x0f.CreateUserInfo\x1a\x11.UserInfoResponse\x125\n" +
 	"\n" +
-	"UpdateUser\x12\x0f.UpdateUserInfo\x1a\x16.google.protobuf.Empty\x122\n" +
-	"\rCheckPassWord\x12\x12.passwordCheckInfo\x1a\r.CheckReponseB\tZ\a.;protob\x06proto3"
+	"UpdateUser\x12\x0f.UpdateUserInfo\x1a\x16.google.protobuf.Empty\x123\n" +
+	"\rCheckPassWord\x12\x12.PasswordCheckInfo\x1a\x0e.CheckResponseB\tZ\a.;protob\x06proto3"
 
 var (
 	file_user_proto_rawDescOnce sync.Once
@@ -595,8 +597,8 @@ var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_user_proto_goTypes = []any{
 	(*PageInfo)(nil),          // 0: PageInfo
 	(*MobileRequest)(nil),     // 1: MobileRequest
-	(*PasswordCheckInfo)(nil), // 2: passwordCheckInfo
-	(*CheckReponse)(nil),      // 3: CheckReponse
+	(*PasswordCheckInfo)(nil), // 2: PasswordCheckInfo
+	(*CheckResponse)(nil),     // 3: CheckResponse
 	(*IdRequest)(nil),         // 4: IdRequest
 	(*CreateUserInfo)(nil),    // 5: CreateUserInfo
 	(*UserInfoResponse)(nil),  // 6: UserInfoResponse
@@ -611,13 +613,13 @@ var file_user_proto_depIdxs = []int32{
 	4, // 3: User.GetUserById:input_type -> IdRequest
 	5, // 4: User.CreateUser:input_type -> CreateUserInfo
 	7, // 5: User.UpdateUser:input_type -> UpdateUserInfo
-	2, // 6: User.CheckPassWord:input_type -> passwordCheckInfo
+	2, // 6: User.CheckPassWord:input_type -> PasswordCheckInfo
 	8, // 7: User.GetUserList:output_type -> UserListResponse
 	6, // 8: User.GetUserByMobile:output_type -> UserInfoResponse
 	6, // 9: User.GetUserById:output_type -> UserInfoResponse
 	6, // 10: User.CreateUser:output_type -> UserInfoResponse
 	9, // 11: User.UpdateUser:output_type -> google.protobuf.Empty
-	3, // 12: User.CheckPassWord:output_type -> CheckReponse
+	3, // 12: User.CheckPassWord:output_type -> CheckResponse
 	7, // [7:13] is the sub-list for method output_type
 	1, // [1:7] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -630,6 +632,8 @@ func file_user_proto_init() {
 	if File_user_proto != nil {
 		return
 	}
+	file_user_proto_msgTypes[6].OneofWrappers = []any{}
+	file_user_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

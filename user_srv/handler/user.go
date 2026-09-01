@@ -28,9 +28,11 @@ func ModelToResponse(user model.User) proto.UserInfoResponse {
 		NickName: user.NickName,
 		Gender:   user.Gender,
 		Role:     int32(user.Role),
+		Mobile:   user.Mobile,
 	}
 	if user.Birthday != nil {
-		userInfoRsp.BrithDay = uint64(user.Birthday.Unix())
+		birthDay := uint64(user.Birthday.Unix())
+		userInfoRsp.BirthDay = &birthDay
 	}
 	return userInfoRsp
 }
@@ -54,18 +56,20 @@ func Paginate(page, pageSize int) func(db *gorm.DB) *gorm.DB {
 }
 
 func (s *UserServer) GetUserList(ctx context.Context, req *proto.PageInfo) (*proto.UserListResponse, error) {
-
-	//获取用户列表
+	// Count and page independently so the response data is loaded only once.
 	var users []model.User
-	result := global.DB.Find(&users)
+	var total int64
+	result := global.DB.Model(&model.User{}).Count(&total)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 
-	rsp := &proto.UserListResponse{}
-	rsp.Total = int32(result.RowsAffected)
+	result = global.DB.Scopes(Paginate(int(req.Pn), int(req.PSize))).Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
 
-	global.DB.Scopes(Paginate(int(req.Pn), int(req.PSize))).Find(&users)
+	rsp := &proto.UserListResponse{Total: int32(total)}
 
 	for _, user := range users {
 		userInfoRsp := ModelToResponse(user)
@@ -88,6 +92,7 @@ func (s *UserServer) CreateUser(ctx context.Context, req *proto.CreateUserInfo) 
 
 	user.Mobile = req.Mobile
 	user.NickName = req.NickName
+
 	//密码加密
 	options := &password.Options{
 		16, 100, 32, sha512.New,
@@ -116,10 +121,12 @@ func (s *UserServer) UpdateUser(ctx context.Context, req *proto.UpdateUserInfo) 
 
 	}
 
-	birthDay := time.Unix(int64(req.BirtDay), 0)
 	user.NickName = req.NickName
-	user.Birthday = &birthDay
 	user.Gender = req.Gender
+	if req.BirthDay != nil {
+		birthDay := time.Unix(int64(*req.BirthDay), 0)
+		user.Birthday = &birthDay
+	}
 
 	result = global.DB.Save(user)
 	if result.Error != nil {
@@ -130,14 +137,14 @@ func (s *UserServer) UpdateUser(ctx context.Context, req *proto.UpdateUserInfo) 
 }
 
 // 检查密码
-func (s *UserServer) CheckPassWord(ctx context.Context, req *proto.PasswordCheckInfo) (*proto.CheckReponse, error) {
+func (s *UserServer) CheckPassWord(ctx context.Context, req *proto.PasswordCheckInfo) (*proto.CheckResponse, error) {
 	//校验密码
 	options := &password.Options{
 		16, 100, 32, sha512.New,
 	}
 	passwordInfo := strings.Split(req.EncryptedPassword, "$")
 	check := password.Verify(req.Password, passwordInfo[1], passwordInfo[2], options)
-	return &proto.CheckReponse{
+	return &proto.CheckResponse{
 		Success: check,
 	}, nil
 

@@ -63,7 +63,6 @@ func TestUpdateUser() {
 		Id:       1,
 		NickName: "jjj",
 		Gender:   "man",
-		BirtDay:  0,
 	})
 	if err != nil {
 		panic(err)

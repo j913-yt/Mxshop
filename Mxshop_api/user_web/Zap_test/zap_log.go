@@ -13,7 +13,7 @@ func NewLogger() (*zap.Logger, error) {
 	return cfg.Build()
 }
 
-func main() {
+func runStructuredLogExample() {
 	logger, err := NewLogger()
 	if err != nil {
 		panic(err)
