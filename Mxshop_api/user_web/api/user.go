@@ -3,13 +3,17 @@ package api
 import (
 	"context"
 	"fmt"
+	"mxshop_srvs/Mxshop_api/user_web/forms"
 	"mxshop_srvs/Mxshop_api/user_web/global"
 	"mxshop_srvs/Mxshop_api/user_web/global/reponse"
 	"mxshop_srvs/user_srv/proto"
 	"net/http"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -59,9 +63,13 @@ func GetUserList(ctx *gin.Context) {
 	//生成grpc的client并调用接口
 	userSrcClient := proto.NewUserClient(userConn)
 
+	pn := ctx.DefaultQuery("pn", "0")
+	pSize := ctx.DefaultQuery("psize", "10")
+	pnInt, _ := strconv.Atoi(pn)
+	pSizeInt, _ := strconv.Atoi(pSize)
 	rsp, err := userSrcClient.GetUserList(context.Background(), &proto.PageInfo{
-		Pn:    0,
-		PSize: 0,
+		Pn:    uint32(pnInt),
+		PSize: uint32(pSizeInt),
 	})
 	if err != nil {
 		zap.S().Errorw("GetUserList 查询用户列表失败")
@@ -92,4 +100,42 @@ func GetUserList(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, result)
 
+}
+
+func PassWordLogin(c *gin.Context) {
+	//表单验证
+	PassWordLoginForm := forms.PassWordLoginForm{}
+	if err := c.ShouldBindJSON(&PassWordLoginForm); err != nil {
+		//如何返回错误信息
+		if err != nil {
+			//拦截错误，进行翻译
+			//我们需要判断，这个错误是不是validator验证失败抛出的错误
+			HandleValidatorError(c, err)
+		}
+	}
+}
+
+func HandleValidatorError(c *gin.Context, err error) {
+	errs, ok := err.(validator.ValidationErrors)
+	if !ok {
+		//不是validator的错误，说明是json格式本身的问题，直接返回
+		c.JSON(http.StatusOK, gin.H{
+			"msg": err.Error(),
+		})
+		return
+	}
+	//核心改造3，手动格式化错误字典，去掉结构体前缀
+	c.JSON(http.StatusBadRequest, gin.H{
+		"error": removeTopStruct(errs.Translate(global.Trans)),
+	})
+}
+
+// removeTopStruct 去掉翻译后错误信息里的结构体前缀
+// 例如 "PassWordLoginForm.mobile" 只保留 "mobile"
+func removeTopStruct(fields map[string]string) map[string]string {
+	rsp := map[string]string{}
+	for field, err := range fields {
+		rsp[field[strings.Index(field, ".")+1:]] = err
+	}
+	return rsp
 }
