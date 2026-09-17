@@ -149,3 +149,21 @@ func (s *UserServer) CheckPassWord(ctx context.Context, req *proto.PasswordCheck
 	}, nil
 
 }
+
+// 通过手机号码查询用户
+func (s *UserServer) GetUserByMobile(ctx context.Context, req *proto.MobileRequest) (*proto.UserInfoResponse, error) {
+	var user model.User
+	result := global.DB.Where(&model.User{
+		Mobile: req.Mobile,
+	}).First(&user)
+
+	if result.RowsAffected == 0 {
+		return nil, status.Errorf(codes.NotFound, "用户不存在")
+	}
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	userInfoRsp := ModelToResponse(user)
+	return &userInfoRsp, nil
+}

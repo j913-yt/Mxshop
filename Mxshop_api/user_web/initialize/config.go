@@ -17,9 +17,9 @@ func InitConfig() {
 	debug := GetEnvInfo("MXSHOP_DEBUG")
 
 	configFilePerfix := "config"
-	configFileName := fmt.Sprintf("Mxshop_api/user_web/%s-pro.yaml", configFilePerfix)
+	configFileName := fmt.Sprintf("%s-pro.yaml", configFilePerfix)
 	if debug {
-		configFileName = fmt.Sprintf("Mxshop_api/user_web/%s-debug.yaml", configFilePerfix)
+		configFileName = fmt.Sprintf("%s-debug.yaml", configFilePerfix)
 	}
 	v := viper.New()
 	//文件的路径如何设置

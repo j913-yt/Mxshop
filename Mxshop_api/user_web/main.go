@@ -21,6 +21,14 @@ func main() {
 	//3.初始化 routers
 	Router := initialize.Routers()
 
+	//4.初始化翻译
+	err2 := initialize.InitTrans()
+
+	if err2 != nil {
+		panic(err2)
+	}
+	zap.S().Debugf("启动服务器，端口：%d", global.ServerConfig.Port)
+
 	//5.注册验证器
 	v, ok := binding.Validator.Engine().(*validator.Validate)
 	if ok {
@@ -33,13 +41,6 @@ func main() {
 
 		return t
 	})
-	//4.初始化翻译
-	err2 := initialize.InitTrans()
-
-	if err2 != nil {
-		panic(err2)
-	}
-	zap.S().Debugf("启动服务器，端口：%d", global.ServerConfig.Port)
 
 	err := Router.Run(fmt.Sprintf(":%d", global.ServerConfig.Port))
 	if err != nil {
