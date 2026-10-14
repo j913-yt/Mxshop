@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"mxshop_srvs/user_srv/handler"
 	"mxshop_srvs/user_srv/proto"
 	"net"
@@ -21,6 +22,7 @@ func main() {
 	proto.RegisterUserServer(server, &handler.UserServer{})
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", *IP, *Port))
 	if err != nil {
+		log.Println("err: ", err)
 		panic("failed to listen:" + err.Error())
 	}
 	err = server.Serve(lis)

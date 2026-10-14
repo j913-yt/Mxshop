@@ -1,0 +1,23 @@
+# GIT COMMIT MESSAGE RULES
+# IMPORTANT: These rules apply to the "Generate with AI" (Sparkle / Magic Wand icon) in the Git / Source Control panel.
+
+You MUST always generate git commit messages in Simplified Chinese (简体中文).
+DO NOT use English for the commit description under any circumstances.
+
+Format requirement (Conventional Commits):
+`<type>(<scope>): <中文描述>`
+
+Type choices:
+- feat: 新功能
+- fix: 修补 Bug / 缺陷
+- docs: 文档变更
+- style: 代码格式（不影响代码运行的变动）
+- refactor: 重构（既不是新增功能，也不是修改bug的代码变动）
+- perf: 性能优化
+- test: 增加或修改测试
+- chore: 构建过程或辅助工具的变动
+
+Examples:
+- feat(user): 新增用户登录与注册接口
+- fix(router): 修复路由初始化报错问题
+- chore(deps): 更新依赖版本
